@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
+using Shared;
 
 namespace Presentation
 {
@@ -13,10 +14,16 @@ namespace Presentation
     public class ProductsController(IServiceManager serviceManager) :ControllerBase
     {
         // Endpoint : Public non-static method
+
+        // Sort : nameasc [default]
+        // Sort : namedasc
+        // Sort : priceasc
+        // Sort : pricedesc
+
         [HttpGet] //GET: /api/products 
-        public async Task<IActionResult>GetAllProducts()
+        public async Task<IActionResult>GetAllProducts([FromQuery]ProductSpecificationsParamters specParams)
         {
-            var result = await serviceManager.ProductService.GetAllProductsAsync();
+            var result = await serviceManager.ProductService.GetAllProductsAsync(specParams);
             if (result is null) return BadRequest(); // 400
 
             return Ok(result); // 200

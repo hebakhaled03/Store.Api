@@ -6,6 +6,7 @@ using Persistence;
 using Persistence.Data;
 using Services;
 using Services.Abstractions;
+using Store.Api.Middlewares;
 using AssemblyMapping = Services.AssemblyReference;
 
 namespace Store.Api
@@ -47,12 +48,16 @@ namespace Store.Api
 
             #endregion
 
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
